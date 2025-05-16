@@ -61,17 +61,11 @@ export const PublicResumePage = () => {
     };
   }, [frameRef]);
 
-  const onDownloadPdf = async () => {
-    const { url } = await printResume({ id });
-
-    openInNewTab(url);
-  };
-
   return (
     <div>
       <Helmet>
         <title>
-          {title} - {t`Reactive Resume`}
+          {title}
         </title>
       </Helmet>
 
