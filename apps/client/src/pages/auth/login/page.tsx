@@ -90,6 +90,7 @@ export const LoginPage = () => {
                   <FormLabel>{t`Email`}</FormLabel>
                   <FormControl>
                     <Input
+                      autofocus
                       autoComplete="email"
                       className="lowercase"
                       placeholder="john.doe@example.com"
