@@ -83,7 +83,7 @@ export const routes = createRoutesFromElements(
 
       {/* Public Routes */}
       <Route path=":username">
-        <Route path=":slug" loader={publicLoader} element={<PublicResumePage />} />
+        <Route path=":slug/:t" loader={publicLoader} element={<PublicResumePage />} />
       </Route>
     </Route>
   </Route>,

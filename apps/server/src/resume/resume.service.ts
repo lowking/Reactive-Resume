@@ -84,7 +84,7 @@ export class ResumeService {
     };
   }
 
-  async findOneByUsernameSlug(username: string, slug: string, userId?: string) {
+  async findOneByUsernameSlug(username: string, slug: string, userId?: string, t?: string) {
     const resume = await this.prisma.resume.findFirstOrThrow({
       where: { user: { username }, slug, visibility: "public" },
     });

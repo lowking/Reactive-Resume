@@ -96,10 +96,11 @@ export const publicLoader: LoaderFunction<ResumeDto> = async ({ params }) => {
     const username = params.username!;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const slug = params.slug!;
+    const t = params.t!;
 
     return await queryClient.fetchQuery({
-      queryKey: ["resume", { username, slug }],
-      queryFn: () => findResumeByUsernameSlug({ username, slug }),
+      queryKey: ["resume", { username, slug, t }],
+      queryFn: () => findResumeByUsernameSlug({ username, slug, t }),
     });
   } catch {
     return redirect("/");

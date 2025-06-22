@@ -91,14 +91,15 @@ export class ResumeController {
     return this.resumeService.findOneStatistics(id);
   }
 
-  @Get("/public/:username/:slug")
+  @Get("/public/:username/:slug/:t")
   @UseGuards(OptionalGuard)
   findOneByUsernameSlug(
     @Param("username") username: string,
     @Param("slug") slug: string,
+    @Param("t") t: string,
     @User("id") userId: string,
   ) {
-    return this.resumeService.findOneByUsernameSlug(username, slug, userId);
+    return this.resumeService.findOneByUsernameSlug(username, slug, userId, t);
   }
 
   @Patch(":id")
