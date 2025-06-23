@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Outlet } from "react-router";
-import webfontloader from "webfontloader";
+import { useFontLoader } from "@reactive-resume/hooks";
 
 import { useArtboardStore } from "../store/artboard";
 
@@ -17,17 +17,7 @@ export const ArtboardPage = () => {
     return `${family}:${variants}:${subset}`;
   }, [metadata.typography.font]);
 
-  useEffect(() => {
-    webfontloader.load({
-      google: { families: [fontString] },
-      active: () => {
-        const width = window.document.body.offsetWidth;
-        const height = window.document.body.offsetHeight;
-        const message = { type: "PAGE_LOADED", payload: { width, height } };
-        window.postMessage(message, "*");
-      },
-    });
-  }, [fontString]);
+  useFontLoader(fontString)
 
   // Font Size & Line Height
   useEffect(() => {

@@ -5,7 +5,6 @@ import type { ComboboxOption } from "@reactive-resume/ui";
 import { Button, Combobox, Label, Slider, Switch } from "@reactive-resume/ui";
 import { cn, fonts } from "@reactive-resume/utils";
 import { useCallback, useEffect, useState } from "react";
-import webfontloader from "webfontloader";
 
 import { useResumeStore } from "@/client/stores/resume";
 
@@ -42,16 +41,37 @@ export const TypographySection = () => {
   const typography = useResumeStore((state) => state.resume.data.metadata.typography);
 
   const loadFontSuggestions = useCallback(() => {
-    for (const font of fontSuggestions) {
-      if (localFonts.includes(font)) continue;
+    for (const fontFamily of fontSuggestions) {
+      if (localFonts.includes(fontFamily)) continue;
 
-      webfontloader.load({
-        events: false,
-        classes: false,
-        google: { families: [font], text: font },
-      });
+      const font = fonts.find(f => f.family === fontFamily);
+      if (!font) continue;
+
+      let css = "";
+      for (const variant of font.variants) {
+        const url = font.files[variant];
+        if (!url) continue;
+        css += `
+@font-face {
+  font-family: '${font.family}';
+  font-style: normal;
+  font-weight: ${variant};
+  src: url('${url}') format('woff2');
+  font-display: swap;
+}
+`;
+      }
+
+      // 为每个 font-family 插入唯一 style
+      const styleId = `font-suggestion-style-${font.family.replace(/\s+/g, "-")}`;
+      if (!document.getElementById(styleId) && css) {
+        const style = document.createElement("style");
+        style.id = styleId;
+        style.textContent = css;
+        document.head.appendChild(style);
+      }
     }
-  }, [fontSuggestions]);
+  }, [fontSuggestions, localFonts]);
 
   useEffect(() => {
     loadFontSuggestions();
