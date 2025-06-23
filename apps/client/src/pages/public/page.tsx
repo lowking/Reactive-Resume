@@ -29,9 +29,9 @@ export const PublicResumePage = () => {
   const updateResumeInFrame = useCallback(() => {
     const message = { type: "SET_RESUME", payload: resume };
 
-    setImmediate(() => {
+    setTimeout(() => {
       frameRef.current?.contentWindow?.postMessage(message, "*");
-    });
+    }, 100);
   }, [frameRef.current, resume]);
 
   useEffect(() => {
